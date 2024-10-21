@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript DOM Manipulation Practice</title>
+    <style>
+        /* 전체 페이지 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 375px; /* 모바일 화면에 최적화 */
+            margin: 0 auto; /* 가운데 정렬 */
+        }
+
+        /* 컨테이너 기본 스타일 */
+        .container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* 제목 스타일 */
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 모달 창 스타일 */
+        .modal {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        /* 모달 오버레이 스타일 */
+        .overlay {
+            display: none; /* 기본적으로 숨김 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+
+
+        
+
+        /* Todo 리스트 항목 스타일 */
+        li {
+            margin: 5px 0;
+            padding: 5px;
+            transition: opacity 0.3s; /* 호버 시 텍스트 흐릿하게 전환 */
+        }
+
+        /* Todo 리스트 항목에 마우스를 올렸을 때 (호버 상태) */
+        li:hover {
+            opacity: 0.5; /* 텍스트 흐릿하게 */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 컨테이너 1: 간단한 카운터 -->
+    <div class="container" id="container1">
+        <h2>1. 간단한 카운터 만들기</h2>
+        <p>카운트: <span id="counterValue">0</span></p>
+        <button id="incrementBtn">카운트 증가</button>
+    </div>
+
+    <!-- 컨테이너 2: Todo 리스트 -->
+    <div class="container" id="container2">
+        <h2>2. Todo 리스트 만들기</h2>
+        <input type="text" id="todoInput" placeholder="할 일을 입력하세요" style="width: 80%; padding: 10px; margin-bottom: 10px;">
+        <button id="addTodoBtn">할 일 추가</button>
+        <ul id="todoList" style="list-style-type: none; padding: 0; margin-top: 10px;">
+            <!-- Todo 항목들이 여기에 추가됩니다 -->
+        </ul>
+    </div>
+
+    <!-- 컨테이너 3: 모달 창 만들기 -->
+    <div class="container" id="container3">
+        <h2>3. 모달 창 만들기</h2>
+        <button id="openModalBtn">모달 열기</button>
+    </div>
+
+    <!-- 모달과 오버레이 -->
+    <div class="overlay" id="modalOverlay"></div>
+    <div class="modal" id="modal">
+        <h3>모달 창</h3>
+        <p>이것은 모달 창입니다!</p>
+        <button id="closeModalBtn">닫기</button>
+    </div>
+
+    <script>
+        // 간단한 카운터 기능 구현
+        const counterValue = document.getElementById('counterValue');
+        const incrementBtn = document.getElementById('incrementBtn');
+        let count = 0;
+
+        incrementBtn.addEventListener('click', () => {
+            count++;
+            counterValue.textContent = count;
+        });
+
+        // Todo 리스트 기능 구현
+        const todoInput = document.getElementById('todoInput');
+        const addTodoBtn = document.getElementById('addTodoBtn');
+        const todoList = document.getElementById('todoList');
+
+        addTodoBtn.addEventListener('click', () => {
+            const todoText = todoInput.value.trim();
+            if (todoText) {
+                const li = document.createElement('li');
+                li.textContent = todoText;
+                li.style.margin = '5px 0';
+                li.addEventListener('click', () => li.remove()); // 항목 클릭 시 삭제
+                todoList.appendChild(li);
+                todoInput.value = ''; // 입력창 비우기
+            }
+        });
+
+        // 모달 창 기능 구현
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('modal');
+        const modalOverlay = document.getElementById('modalOverlay');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            modalOverlay.style.display = 'block';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        });
+
+        modalOverlay.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
